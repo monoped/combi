@@ -31,7 +31,7 @@ public class Main {
 
         File    fdir = new File(dir);
 
-        ArrayList<> files = new ArrayList<File>();
+        ArrayList<File> files = new ArrayList<File>();
 
         for (ListIterator<String> it = list.listIterator(); it.hasNext();) {
             String  s = it.next();
