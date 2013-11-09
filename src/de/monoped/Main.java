@@ -4,6 +4,8 @@ import de.monoped.utils.Getopt;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -11,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ListIterator;
 
 public class Main {
@@ -27,11 +30,18 @@ public class Main {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         layeredPane = new JLayeredPane();
         layeredPane.setBounds(0, 0, screenWidth, screenHeight);
+        frame.setLayout(null);
         frame.add(layeredPane);
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == '\n') System.exit(0);
+            }
+        });
 
         File    fdir = new File(dir);
 
-        ArrayList<File> files = new ArrayList<File>();
+        ArrayList<File> files = new ArrayList<>();
 
         for (ListIterator<String> it = list.listIterator(); it.hasNext();) {
             String  s = it.next();
@@ -43,20 +53,20 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Getopt                  opts = new Getopt(args, "d:f:");
-        String                  inputPath = null;
+        String                  inputFile = null;
         String                  inputDir = System.getProperty("user.dir");
         int                     opt;
-        java.util.List<String>  files;
+        List<String>  files;
 
         while ((opt = opts.getOption()) != -1)  {
             switch (opt) {
                 case 'd': inputDir = opts.getOptarg(); break;
-                case 'f': inputPath = opts.getOptarg(); break;
+                case 'f': inputFile = opts.getOptarg(); break;
             }
         }
 
-        if (inputPath != null)
-            files = Files.readAllLines(Paths.get(inputPath), Charset.defaultCharset());
+        if (inputFile != null)
+            files = Files.readAllLines(Paths.get(inputFile), Charset.defaultCharset());
         else
             files = Arrays.asList(opts.getParms());
 
