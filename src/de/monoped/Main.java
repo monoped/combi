@@ -41,7 +41,7 @@ public class Main {
 
         File    fdir = new File(dir);
 
-        ArrayList<File> files = new ArrayList<>();
+        ArrayList<File> files = new ArrayList<File>();
 
         for (ListIterator<String> it = list.listIterator(); it.hasNext();) {
             String  s = it.next();
